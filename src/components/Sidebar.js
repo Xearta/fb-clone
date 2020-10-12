@@ -9,14 +9,14 @@ import ChatIcon from '@material-ui/icons/Chat';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import { ExpandMoreOutlined } from '@material-ui/icons';
+import { useStateValue } from '../StateProvider';
 
 const Sidebar = () => {
+  const [{ user }, dispatch] = useStateValue();
+
   return (
     <div className='sidebar'>
-      <SidebarRow
-        src='https://avatars0.githubusercontent.com/u/1683791?s=460&u=abccb06c384728e7fda2185195a8389600db7c76&v=4'
-        title='Tanner Townsend'
-      />
+      <SidebarRow src={user.photoURL} title={user.displayName} />
       <SidebarRow
         Icon={LocalHospitalIcon}
         title={'COVID-19 Information Center'}
