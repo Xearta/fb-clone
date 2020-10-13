@@ -1,6 +1,8 @@
 import { Avatar } from '@material-ui/core';
 import React, { useState } from 'react';
 import './MessageSender.css';
+import db from '../firebase';
+import firebase from 'firebase';
 
 import VideocamIcon from '@material-ui/icons/Videocam';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -15,7 +17,13 @@ const MessageSender = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    // Do something
+    db.collection('posts').add({
+      message: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      profilePic: user.photoURL,
+      username: user.displayName,
+      image: imageUrl,
+    });
 
     setInput('');
     setImageUrl('');
@@ -32,7 +40,11 @@ const MessageSender = () => {
             className='messageSender__input'
             placeholder={`What's on your mind, ${user.displayName}?`}
           />
-          <input placeholder='Image URL (Optional)' />
+          <input
+            value={imageUrl}
+            onChange={e => setImageUrl(e.target.value)}
+            placeholder='Image URL (Optional)'
+          />
 
           <button onClick={handleSubmit} type='submit'>
             Hidden Submit
